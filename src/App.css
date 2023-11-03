@@ -1,0 +1,14 @@
+.section {
+  padding: 8rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+
+  .text {
+    color: white;
+  }
+
+  .image {
+    width: 36rem;
+  }
+}
