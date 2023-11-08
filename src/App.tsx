@@ -1,8 +1,15 @@
 import './App.css'
 import Header from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
+import ItemDetail from "./components/ItemDetail.tsx";
 
-const listSection = [
+export type ItemType = {
+  title: string,
+  content: string,
+  image: string
+}
+
+const listSection: Array<ItemType> = [
   {
     title: 'Thưởng thức trên TV của bạn',
     content: 'Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác.',
@@ -25,17 +32,13 @@ const listSection = [
   },
 ]
 
+
+
 const ListSection = () => {
   return <div>
     {
       listSection.map((item, index) => {
-        return <div className="section">
-          <div>
-            <h1 className="text">{item.title}</h1>
-            <h3 className="text">{item.content}</h3>
-          </div>
-          <img src={item.image} className="image" />
-        </div>
+        return <ItemDetail item={item} key={index} isEven={index%2===0} />
       })
     }
   </div>
@@ -43,11 +46,11 @@ const ListSection = () => {
 
 function App() {
   return (
-    <div>
+    <>
       <Header />
       <ListSection />
       <Footer />
-    </div>
+    </>
   )
 }
 

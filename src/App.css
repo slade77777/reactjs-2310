@@ -1,7 +1,6 @@
 .section {
   padding: 8rem;
   display: flex;
-  flex-direction: row;
   gap: 2rem;
 
   .text {
@@ -11,4 +10,12 @@
   .image {
     width: 36rem;
   }
+}
+
+.section-row {
+  flex-direction: row;
+}
+
+.section-reverse {
+  flex-direction: row-reverse;
 }
