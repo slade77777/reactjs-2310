@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {useState} from "react";
 
 type User = {
   name: string,
@@ -27,23 +28,37 @@ let userList: User[] = [
   },
 ]
 
-const Profile = ({user}: {user: User}) => {
+const Profile = ({user}: { user: User }) => {
+  const [name, setName] = useState<string>();
+  const [isShow, setShow] = useState(true);
+
+  function hide() {
+    setShow(false)
+  }
+
+  function show() {
+    setShow(true)
+  }
 
   return <div>
-    <button onClick={() => {
-      user.name = 'tran van a'
-    }}>Change Name</button>
-    <Paragraph>Name: {user.name}</Paragraph>
-    <Paragraph>Age: {user.age}</Paragraph>
-    <Paragraph>Class: {user.class}</Paragraph>
-    <Paragraph>Slogan: {user.slogan}</Paragraph>
+    {
+      isShow ? <>
+          <Paragraph>New name: </Paragraph><input onChange={e => setName(e.target.value)}/>
+          <Paragraph>Name: {name || user.name}</Paragraph>
+          <Paragraph>Age: {user.age}</Paragraph>
+          <Paragraph>Class: {user.class}</Paragraph>
+          <Paragraph>Slogan: {user.slogan}</Paragraph>
+          <button onClick={hide}>Hide</button>
+        </>
+        : <button onClick={show}>Show</button>
+    }
   </div>
 }
 
 const ProfileList = () => {
   return <Container>
     {
-      userList.map((user) => <Profile user={user}  />)
+      userList.map((user) => <Profile user={user}/>)
     }
   </Container>
 }
@@ -52,9 +67,10 @@ export default ProfileList
 
 const Container = styled.div`
   background-color: white;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `
 
 const Paragraph = styled.p`

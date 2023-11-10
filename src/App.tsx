@@ -57,7 +57,7 @@ function App() {
       {/*<ListSection />*/}
       {/*<ListSection />*/}
       {/*<Footer />*/}
-      {/*<ProfileList />*/}
+      <ProfileList />
       <div style={{margin: 30}}>
         <label>Number 1:</label>
         <input type='number' onChange={(e) => setNumber1(+e.target.value)} />
