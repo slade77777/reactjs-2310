@@ -2,6 +2,8 @@ import './App.css'
 import Header from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import ItemDetail from "./components/ItemDetail.tsx";
+import ProfileList from "./components/ProfileList.tsx";
+import {useState} from "react";
 
 export type ItemType = {
   title: string,
@@ -45,12 +47,25 @@ const ListSection = () => {
 }
 
 function App() {
+
+  const [number1, setNumber1] = useState<number>(0)
+  const [number2, setNumber2] = useState<number>(0)
+
   return (
-    <>
-      <Header />
-      <ListSection />
-      <Footer />
-    </>
+    <div>
+      {/*<Header />*/}
+      {/*<ListSection />*/}
+      {/*<ListSection />*/}
+      {/*<Footer />*/}
+      {/*<ProfileList />*/}
+      <div style={{margin: 30}}>
+        <label>Number 1:</label>
+        <input type='number' onChange={(e) => setNumber1(+e.target.value)} />
+        <label>Number 2:</label>
+        <input type='number' onChange={(e) => setNumber2(+e.target.value)}/>
+        <p>Sum: {number1 + number2}</p>
+      </div>
+    </div>
   )
 }
 
