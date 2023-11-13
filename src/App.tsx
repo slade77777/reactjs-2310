@@ -4,6 +4,7 @@ import { Footer } from "./components/Footer.tsx";
 import ItemDetail from "./components/ItemDetail.tsx";
 import ProfileList from "./components/ProfileList.tsx";
 import {useRef, useState} from "react";
+import FormRegister from "./components/FormRegister.tsx";
 
 export type ItemType = {
   title: string,
@@ -70,9 +71,10 @@ const ChildComponent = () => {
 
 function App() {
   return (
-    <div>
-      <ProfileList />
-      <ChildComponent />
+    <div style={{ backgroundColor: 'white', width: '100vw'}}>
+      {/*<ProfileList />*/}
+      {/*<ChildComponent />*/}
+      <FormRegister />
     </div>
   )
 }
