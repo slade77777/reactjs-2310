@@ -3,7 +3,7 @@ import Header from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import ItemDetail from "./components/ItemDetail.tsx";
 import ProfileList from "./components/ProfileList.tsx";
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 export type ItemType = {
   title: string,
@@ -37,6 +37,7 @@ const listSection: Array<ItemType> = [
 
 
 const ListSection = () => {
+  // stateless component
   return <div>
     {
       listSection.map((item, index) => {
@@ -46,25 +47,32 @@ const ListSection = () => {
   </div>
 }
 
-function App() {
-
+const ChildComponent = () => {
+  // stateful component
   const [number1, setNumber1] = useState<number>(0)
-  const [number2, setNumber2] = useState<number>(0)
+  const inputRef = useRef(null);
 
+  function sum() {
+    //inputRef.current = document.getElementBySTH -> dom of input
+    alert('Sum of 2 number is ' + (+number1 + +inputRef.current?.value))
+  }
+
+  return <div style={{margin: 30}}>
+    <label>Number 1:</label>
+    <input type='number' onChange={(e) => setNumber1(+e.target.value)} />
+    {+number1 > 30 && <p>Cannot input more than 30</p>}
+    <label>Number 2:</label>
+    <input type='number' ref={inputRef} />
+    <button onClick={sum}>Calculate Sum</button>
+    {/*<p>Sum: {number1 + number2}</p>*/}
+  </div>
+}
+
+function App() {
   return (
     <div>
-      {/*<Header />*/}
-      {/*<ListSection />*/}
-      {/*<ListSection />*/}
-      {/*<Footer />*/}
       <ProfileList />
-      <div style={{margin: 30}}>
-        <label>Number 1:</label>
-        <input type='number' onChange={(e) => setNumber1(+e.target.value)} />
-        <label>Number 2:</label>
-        <input type='number' onChange={(e) => setNumber2(+e.target.value)}/>
-        <p>Sum: {number1 + number2}</p>
-      </div>
+      <ChildComponent />
     </div>
   )
 }
