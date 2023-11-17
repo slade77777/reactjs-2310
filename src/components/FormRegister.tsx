@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {FC, useState} from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup";
+import {useState} from "react";
 
 const schema = yup
   .object({
@@ -12,6 +12,7 @@ const schema = yup
   .required()
 
 const FormRegister = () => {
+  const [userList, setUserList] = useState([])
   const {
     register,
     handleSubmit,
@@ -22,7 +23,12 @@ const FormRegister = () => {
   })
 
   const onSubmit = (data: any) => {
-    console.log(data)
+    setUserList(prevState => {
+      return [...prevState, data]
+    })
+
+    const newList = [...userList, data];
+    setUserList(newList)
   }
 
   console.log(errors);

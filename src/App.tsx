@@ -58,13 +58,19 @@ const ChildComponent = () => {
     alert('Sum of 2 number is ' + (+number1 + +inputRef.current?.value))
   }
 
+  console.log(number1);
+
   return <div style={{margin: 30}}>
     <label>Number 1:</label>
-    <input type='number' onChange={(e) => setNumber1(+e.target.value)} />
-    {+number1 > 30 && <p>Cannot input more than 30</p>}
-    <label>Number 2:</label>
-    <input type='number' ref={inputRef} />
-    <button onClick={sum}>Calculate Sum</button>
+    <input type='number' value={number1} onChange={(e) => setNumber1(+e.target.value)} />
+    <button onClick={() => setNumber1(number1 + 1)}>Increase 1</button>
+    <button onClick={() => setNumber1(prevState => {
+      return prevState + 2
+    })}>Increase 2</button>
+    {/*{+number1 > 30 && <p>Cannot input more than 30</p>}*/}
+    {/*<label>Number 2:</label>*/}
+    {/*<input type='number' ref={inputRef} />*/}
+    {/*<button onClick={sum}>Calculate Sum</button>*/}
   </div>
 }
 
@@ -72,8 +78,8 @@ function App() {
   return (
     <div style={{ backgroundColor: 'white', width: '100vw'}}>
       {/*<ProfileList />*/}
-      {/*<ChildComponent />*/}
-      <FormRegister />
+      <ChildComponent />
+      {/*<FormRegister />*/}
     </div>
   )
 }
