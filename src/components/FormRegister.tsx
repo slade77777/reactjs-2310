@@ -23,10 +23,12 @@ const FormRegister = () => {
   })
 
   const onSubmit = (data: any) => {
+    // solution 1: better
     setUserList(prevState => {
       return [...prevState, data]
     })
 
+    //solution 2
     const newList = [...userList, data];
     setUserList(newList)
   }
