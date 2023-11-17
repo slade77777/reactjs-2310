@@ -65,7 +65,6 @@ const ChildComponent = () => {
     <label>Number 2:</label>
     <input type='number' ref={inputRef} />
     <button onClick={sum}>Calculate Sum</button>
-    {/*<p>Sum: {number1 + number2}</p>*/}
   </div>
 }
 

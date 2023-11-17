@@ -1,30 +1,45 @@
 import styled from "styled-components";
-import {useState} from "react";
+import {FC, useState} from "react";
+import { useForm, SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup";
+
+const schema = yup
+  .object({
+    firstName: yup.string().required(),
+    email: yup.string().email().required(),
+  })
+  .required()
 
 const FormRegister = () => {
-  const [firstName, setFirstName] = useState<string>()
-  const [email, setEmail] = useState<string>()
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema)
+  })
 
-  const isValid = () => {
-    if (firstName && email && email.includes('@') && email.includes('.')) {
-      return true
-    } else {
-      return false
-    }
+  const onSubmit = (data: any) => {
+    console.log(data)
   }
 
-  console.log(isValid());
+  console.log(errors);
 
   return <Wrap>
     <Para>Register User</Para>
-    <Label>First Name</Label>
-    <input type="text" onChange={e => setFirstName(e.target.value)} />
-    {firstName === '' && <ErrorMes>First name is required</ErrorMes>}
-    <Label>Email</Label>
-    <input type="text" onChange={e => setEmail(e.target.value)}/>
-    {email === '' && <ErrorMes>Email is required</ErrorMes>}
-    {email !== undefined && (!email?.includes('@') || !email?.includes('.')) && <ErrorMes>Email is not correct</ErrorMes>}
-    {isValid() ? <Button>Register</Button> : <div style={{height: 20}} />}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Label>First Name</Label>
+      <input type="text" {...register("firstName")}  />
+      {errors.firstName && <ErrorMes >{errors.firstName.message}</ErrorMes>}
+      <div/>
+      <Label>Email</Label>
+      <input type="text" {...register("email")} />
+      {errors.email && <ErrorMes >{errors.email.message}</ErrorMes>}
+      <div/>
+      <Button type="submit" >Register</Button>
+    </form>
   </Wrap>
 }
 
@@ -36,6 +51,7 @@ const Wrap = styled.div`
   align-items: center;
   justify-content: center;
   width: 100vw;
+  height: 100vh;
 `
 
 const Para = styled.h3`
@@ -55,4 +71,16 @@ const Button = styled.button`
 const ErrorMes = styled.p`
   color: red;
   margin: 0;
+`
+const PopUp = styled.div`
+  position: fixed;
+  top: 20vh;
+  height: 60vh;
+  left: 30vw;
+  width: 40vw;
+  border: 1px solid black;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
