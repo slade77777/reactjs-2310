@@ -78,8 +78,8 @@ function App() {
   return (
     <div style={{ backgroundColor: 'white', width: '100vw'}}>
       {/*<ProfileList />*/}
-      <ChildComponent />
-      {/*<FormRegister />*/}
+      {/*<ChildComponent />*/}
+      <FormRegister />
     </div>
   )
 }
