@@ -1,86 +1,56 @@
 import './App.css'
-import Header from "./components/Header.tsx";
-import { Footer } from "./components/Footer.tsx";
-import ItemDetail from "./components/ItemDetail.tsx";
-import ProfileList from "./components/ProfileList.tsx";
-import {useRef, useState} from "react";
-import FormRegister from "./components/FormRegister.tsx";
+import React, {createContext, useState} from "react";
+import Quiz from "./components/Quiz.tsx";
 
-export type ItemType = {
-  title: string,
-  content: string,
-  image: string
-}
-
-const listSection: Array<ItemType> = [
+export const questionList = [
   {
-    title: 'Thưởng thức trên TV của bạn',
-    content: 'Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác.',
-    image: 'https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/tv.png'
+    question: '1 + 1 = ',
+    options: [
+      1, 2, 5, 8
+    ],
+    answer: 2
   },
   {
-    title: 'Tải xuống nội dung để xem ngoại tuyến',
-    content: 'Lưu lại những nội dung yêu thích một cách dễ dàng và luôn có thứ để xem.',
-    image: 'https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/mobile-0819.jpg'
+    question: '2 + 2 = ',
+    options: [
+      1, 4, 7, 11
+    ],
+    answer: 4
   },
   {
-    title: 'Xem ở mọi nơi',
-    content: 'Phát trực tuyến không giới hạn phim và chương trình truyền hình trên điện thoại, máy tính bảng, máy tính xách tay và TV.',
-    image: 'https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/device-pile-vn.png'
-  },
-  {
-    title: 'Tạo hồ sơ cho trẻ em',
-    content: 'Đưa các em vào những cuộc phiêu lưu với nhân vật được yêu thích trong một không gian riêng. Tính năng này đi kèm miễn phí với tư cách thành viên của bạn.',
-    image: 'https://occ-0-395-325.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABZSTDsJQCe6ndkevSo7c_grcr0f2YJ5pimzeSor98ix4Earwyoza7Liyg8OsNpA2cg3HKSF63qppfkKVP8BTEmcVRAkwa2lhcl5S.png?r=d73'
-  },
+    question: '3 + 3 = ',
+    options: [
+      3, 4, 6, 18
+    ],
+    answer: 6
+  }
 ]
 
-
-
-const ListSection = () => {
-  // stateless component
-  return <div>
-    {
-      listSection.map((item, index) => {
-        return <ItemDetail item={item} key={index} isEven={index%2===0} />
-      })
-    }
-  </div>
-}
-
-const ChildComponent = () => {
-  // stateful component
-  const [number1, setNumber1] = useState<number>(0)
-  const inputRef = useRef(null);
-
-  function sum() {
-    //inputRef.current = document.getElementBySTH -> dom of input
-    alert('Sum of 2 number is ' + (+number1 + +inputRef.current?.value))
-  }
-
-  console.log(number1);
-
-  return <div style={{margin: 30}}>
-    <label>Number 1:</label>
-    <input type='number' value={number1} onChange={(e) => setNumber1(+e.target.value)} />
-    <button onClick={() => setNumber1(number1 + 1)}>Increase 1</button>
-    <button onClick={() => setNumber1(prevState => {
-      return prevState + 2
-    })}>Increase 2</button>
-    {/*{+number1 > 30 && <p>Cannot input more than 30</p>}*/}
-    {/*<label>Number 2:</label>*/}
-    {/*<input type='number' ref={inputRef} />*/}
-    {/*<button onClick={sum}>Calculate Sum</button>*/}
-  </div>
-}
+export const PointContext = createContext<{
+  currentQuestion: number,
+  point: number,
+  handleNextButton: () => void,
+  increasePoint: () => void
+}>({})
 
 function App() {
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [point, setPoint] = useState(0)
+
+  console.log(point);
+
+  function handleNextButton() {
+    setCurrentQuestion(currentQuestion + 1)
+  }
+
+  function increasePoint() {
+    setPoint(point + 1)
+  }
+
   return (
-    <div style={{ backgroundColor: 'white', width: '100vw'}}>
-      {/*<ProfileList />*/}
-      {/*<ChildComponent />*/}
-      <FormRegister />
-    </div>
+    <PointContext.Provider value={{currentQuestion , handleNextButton, increasePoint, point}}>
+      <Quiz  />
+    </PointContext.Provider>
   )
 }
 
