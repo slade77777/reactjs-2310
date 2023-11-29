@@ -1,88 +1,71 @@
 import './App.css'
 import {createContext, useContext, useState} from "react";
-import {useForm} from "react-hook-form";
+import Quiz from "./components/Quiz.tsx";
 
-type Family = {
-  grandFather: string,
-  father: string,
-  child: string
-}
-
-const FamilyContext = createContext({})
-
-const FormFamily = ({saveInformation}: {saveInformation: (val: Family) => void}) => {
-
-  const context = useContext(FamilyContext)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: {errors},
-  } = useForm()
-  const onSubmit = (data: Family) => {
-    context.setFamily(data)
+export const PointContext = createContext<any>({})
+export const questionList = [
+  {
+    question: '1 + 1 = ',
+    options: [
+      1 , 2 , 5, 8
+    ],
+    answer: 2
+  },
+  {
+    question: '2 + 2 = ',
+    options: [
+      1 , 2 , 4, 8
+    ],
+    answer: 4
+  },
+  {
+    question: '3 + 3 = ',
+    options: [
+      1 , 2 , 6, 8
+    ],
+    answer: 6
+  },
+  {
+    question: '3 + 1 = ',
+    options: [
+      1 , 4 , 6, 8
+    ],
+    answer: 4
+  },
+  {
+    question: '3 + 5 = ',
+    options: [
+      1 , 2 , 6, 8
+    ],
+    answer: 8
   }
-
-  return <div>
-    <form onSubmit={handleSubmit(onSubmit)} >
-      <div>
-        <label>GrandFather:</label>
-        <input type="text" {...register('grandFather')}/>
-      </div>
-      <div/>
-      <label>Father:</label>
-      <input type="text" {...register('father')}/>
-      <div/>
-      <label>Son:</label>
-      <input type="text" {...register('child')}/>
-      <div />
-      <button type="submit">Update</button>
-    </form>
-  </div>
-}
-
-const ChildInformation = () => {
-  const context = useContext(FamilyContext)
-  return <div>
-    {/*Show child information*/}
-    <p>Son: {context.family.child}</p>
-  </div>
-}
-
-const ParentInformation = () => {
-  const context = useContext(FamilyContext)
-  return <div>
-    {/*Show father information*/}
-    <p>Father: {context.family.father}</p>
-    <ChildInformation/>
-  </div>
-}
-
-const FamilyInformation = () => {
-  const context = useContext(FamilyContext)
-  return <div>
-    {/*Show grandfather information*/}
-    <p>Grand father: {context?.family?.grandFather}</p>
-    <ParentInformation />
-  </div>
-}
+]
 
 function App() {
-  const [family, setFamily] = useState({
-    grandFather: '',
-    father: '',
-    child: ''
-  })
-
-  console.log(family);
+  // const [family, setFamily] = useState({
+  //   grandFather: '',
+  //   father: '',
+  //   child: ''
+  // })
+  //
+  // console.log(family);
   // declare information
+  // return (
+  //   <FamilyContext.Provider value={{family, setFamily}}>
+  //     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100vw'}}>
+  //       <FormFamily saveInformation={setFamily} />
+  //       <FamilyInformation />
+  //     </div>
+  //   </FamilyContext.Provider>
+  // )
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [answers, setAnswers] = useState<number[]>([]) // [1, 3 ,4,7]
+  console.log(`answers: ${answers}`);
+
   return (
-    <FamilyContext.Provider value={{family, setFamily}}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100vw'}}>
-        <FormFamily saveInformation={setFamily} />
-        <FamilyInformation />
-      </div>
-    </FamilyContext.Provider>
+    <PointContext.Provider value={{currentQuestion , setCurrentQuestion, setAnswers, answers}}>
+      <Quiz  />
+    </PointContext.Provider>
   )
 }
 

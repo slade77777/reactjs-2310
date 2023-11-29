@@ -6,17 +6,28 @@ const QuestionComponent = () => {
   const pointContext = useContext(PointContext)
   const question = questionList[pointContext.currentQuestion];
   const [choice, setChoice] = useState<number>();
-  console.log(pointContext);
+  const listChoice = pointContext.answers;
+  const choosingAnswer = choice || listChoice[pointContext.currentQuestion];
 
   function submit() {
+    // [1,5]
+    // -> [1, 5, 6]
+    pointContext.setAnswers((prevState: number[]) => {
+      const newAnswers = [...prevState];
+      newAnswers[pointContext.currentQuestion] = choosingAnswer;
+      return newAnswers
+    });
     // right choice
     if (choice === question.answer) {
-      pointContext.handleNextButton?.()
-      pointContext.increasePoint?.();
+      pointContext.setCurrentQuestion((prevState: number) => prevState + 1)
     } else {
-      pointContext.handleNextButton?.()
+      pointContext.setCurrentQuestion((prevState: number) => prevState + 1)
     }
     setChoice(undefined);
+  }
+
+  function backQuestion() {
+    pointContext.setCurrentQuestion((prevState: number) => prevState - 1)
   }
 
   return <div>
@@ -24,27 +35,32 @@ const QuestionComponent = () => {
     <p>{question.question}</p>
     {
       question.options.map((option, index) => <div>
-        <input key={index} type="radio" name="question" value={option} checked={option === choice}
+        <input key={index} type="radio" name="question" value={option} checked={option === choosingAnswer}
                onChange={() => setChoice(option)}/>{option}
       </div>)
     }
     <div/>
+    <button onClick={backQuestion}>Back</button>
     <button onClick={submit}>Next</button>
   </div>
 }
 
 const ResultComponent = () => {
   const pointContext = useContext(PointContext)
-
-  return <div>You got {pointContext.point} of {questionList.length} points</div>
+  console.log(pointContext.answers);
+  let point = 0;
+  pointContext.answers.forEach((answer: number, index: number) => {
+    if (answer === questionList[index].answer) {
+      point++
+    }
+  })
+  return <div>You got {point} of {questionList.length} points</div>
 }
 
 
 const Quiz = () => {
 
   const pointContext = useContext(PointContext)
-
-  console.log(pointContext);
 
   return <div style={{
     backgroundColor: 'black',
