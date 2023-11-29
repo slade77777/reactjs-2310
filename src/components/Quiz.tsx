@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {PointContext, questionList} from "../App.tsx";
 
 const QuestionComponent = () => {
@@ -30,6 +30,18 @@ const QuestionComponent = () => {
     pointContext.setCurrentQuestion((prevState: number) => prevState - 1)
   }
 
+  useEffect(() => {
+    if (pointContext.timeLeft === 10) {
+      alert('Hurry up, run out of time')
+    }
+  }, [pointContext.timeLeft])
+
+  useEffect(() => {
+    return () => {
+      console.log('quit component')
+    }
+  }, [])
+
   return <div>
     <p>Question {pointContext.currentQuestion + 1} of {questionList.length}</p>
     <p>{question.question}</p>
@@ -42,6 +54,7 @@ const QuestionComponent = () => {
     <div/>
     <button onClick={backQuestion}>Back</button>
     <button onClick={submit}>Next</button>
+    <p>Time left: {pointContext.timeLeft}s</p>
   </div>
 }
 
