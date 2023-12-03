@@ -1,76 +1,29 @@
 import './App.css'
-import {createContext, useContext, useEffect, useState} from "react";
-import Quiz from "./components/Quiz.tsx";
+import ListMessage from "./components/Chat/ListMessage.tsx";
+import {useState} from "react";
 
-export const PointContext = createContext<any>({})
-export const questionList = [
-  {
-    question: '1 + 1 = ',
-    options: [
-      1 , 2 , 5, 8
-    ],
-    answer: 2
-  },
-  {
-    question: '2 + 2 = ',
-    options: [
-      1 , 2 , 4, 8
-    ],
-    answer: 4
-  },
-  {
-    question: '3 + 3 = ',
-    options: [
-      1 , 2 , 6, 8
-    ],
-    answer: 6
-  },
-  {
-    question: '3 + 1 = ',
-    options: [
-      1 , 4 , 6, 8
-    ],
-    answer: 4
-  },
-  {
-    question: '3 + 5 = ',
-    options: [
-      1 , 2 , 6, 8
-    ],
-    answer: 8
-  }
-]
-
+export type Message = {
+  content: string,
+  user: 'A' | 'B'
+}
 function App() {
-  const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<number[]>([]) // [1, 3 ,4,7]
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [messages, setMessages] = useState<Array<{
-    content: string,
-    owner: string
-  }>>([])
-
-  //mounting
-  useEffect(() => {
-    //do anything
-    const timeInterval = setInterval(() => {
-      setTimeLeft(prevState => prevState - 1)
-    }, 1000)
-
-    return () => {
-      clearInterval(timeInterval);
-    }
-  }, [])
-
-  //updating
-  // useEffect(() => {
-  //   alert(`this is question ${currentQuestion}`)
-  // }, [currentQuestion])
+  const [listMes, setListMes] = useState<Array<Message>>([{
+    content: 'this is message from A',
+    user: 'A'
+  }, {
+    content: 'this is B rep',
+    user: 'B'
+  }])
 
   return (
-    <PointContext.Provider value={{currentQuestion , setCurrentQuestion, setAnswers, answers, timeLeft}}>
-      <Quiz  />
-    </PointContext.Provider>
+    <div className="w-screen h-screen flex flex-row">
+      <div className="w-1/2 bg-amber-200 py-24 px-40">
+        <ListMessage user="A" messages={listMes}/>
+      </div>
+      <div className="w-1/2 bg-sky-300 py-24 px-40">
+        <ListMessage user="B" messages={listMes}/>
+      </div>
+    </div>
   )
 }
 
