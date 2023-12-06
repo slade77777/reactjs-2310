@@ -1,11 +1,11 @@
 import {FC} from "react";
-import {User} from "../App.tsx";
+import {Link} from "react-router-dom";
+import {User} from "../page/Home.tsx";
 
 const UserLine:FC<{user: User, index: number}> = ({user, index}) => {
-  console.log(user);
   return <tr>
     <td>{index}</td>
-    <td>{user.email}</td>
+    <Link to={`/detail/${index}`}><td>{user.email}</td></Link>
     <td>{user.username}</td>
   </tr>
 }
