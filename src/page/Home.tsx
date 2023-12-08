@@ -1,12 +1,17 @@
 import '../App.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import UserLine from "../components/UserLine.tsx";
 import UserForm from "../components/UserForm.tsx";
+import {instance} from "../axios-instance.ts";
 
 export type User = {
+  id: number,
   email: string,
-  username: string,
+  fullname: string,
+  department: string,
+  position: string
 }
+
 function Home() {
   const [users, setUsers] = useState<Array<User>>([])
 
@@ -16,6 +21,13 @@ function Home() {
     setAdding(false)
   }
 
+  useEffect(() => {
+    instance.get('/user').then(response => {
+      setUsers(response.data)
+    })
+  }, [])
+
+  console.log(users);
   return (
     <div className="w-screen h-screen p-20 bg-sky-300">
       <div className="bg-white w-full h-full">
@@ -25,18 +37,20 @@ function Home() {
           <tr>
             <th>Id</th>
             <th>Email</th>
-            <th>User Name</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Position</th>
           </tr>
           </thead>
           <tbody>
           {
-            users.map((user, index) => <UserLine user={user} index={index} />)
+            users.map((user) => <UserLine user={user} />)
           }
           </tbody>
         </table>
       </div>
       {
-        isAdding && <UserForm closeForm={closeForm} saveUsers={setUsers} />
+        isAdding && <UserForm closeForm={closeForm} setUsers={setUsers} />
       }
     </div>
   )
