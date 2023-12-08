@@ -27,7 +27,6 @@ function Home() {
     })
   }, [])
 
-  console.log(users);
   return (
     <div className="w-screen h-screen p-20 bg-sky-300">
       <div className="bg-white w-full h-full">
