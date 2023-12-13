@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import UserLine from "../components/UserLine.tsx";
 import UserForm from "../components/UserForm.tsx";
 import {instance} from "../axios-instance.ts";
+import {useCheckLogin} from "../hook/useCheckLogin.ts";
 
 export type User = {
   id: number,
@@ -26,6 +27,8 @@ function Home() {
       setUsers(response.data)
     })
   }, [])
+
+  useCheckLogin();
 
   return (
     <div className="w-screen h-screen p-20 bg-sky-300">

@@ -1,9 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('')
   function submit() {
     // check logic
+    localStorage.setItem('email', email)
     // correct => redirect to home
     navigate('/home')
   }
@@ -13,7 +16,7 @@ const Login = () => {
       <p className="text-black text-center mb-4">LOGIN PAGE</p>
       <div>
         <p className="text-black">Email:</p>
-        <input type="text" className="bg-white text-black border-solid border-2 border-black rounded-2xl" />
+        <input type="text" onChange={e => setEmail(e.target.value)} className="bg-white text-black border-solid border-2 border-black rounded-2xl" />
       </div>
       <div>
         <p className="text-black">Password:</p>

@@ -1,5 +1,5 @@
 import './App.css'
-import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Outlet, redirect, RouterProvider} from "react-router-dom";
 import Home from "./page/Home.tsx";
 import Login from "./page/Login.tsx";
 import UserDetail from "./page/UserDetail.tsx";
@@ -13,6 +13,16 @@ const Layout = () => {
 }
 
 function App() {
+  // function checkLogin() {
+  //   const emailLogin = localStorage.getItem('email');
+  //   console.log(emailLogin);
+  //   if (emailLogin) {
+  //     return true;
+  //   } else {
+  //     return redirect('/login')
+  //   }
+  // }
+
   const router = createBrowserRouter([
     {
       path: "/login",
@@ -21,6 +31,7 @@ function App() {
     {
       path: "/",
       element: <Layout />, // include header + footer
+      // loader: () => checkLogin(),
       children: [
         {
           path: '/home',
