@@ -7,6 +7,8 @@ const Login = () => {
   function submit() {
     // check logic
     localStorage.setItem('email', email)
+    // remove key
+    // localStorage.removeItem('email')
     // correct => redirect to home
     navigate('/home')
   }
