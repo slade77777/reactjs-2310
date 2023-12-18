@@ -1,15 +1,20 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {saveUser} from "../slices/accountSlice.ts";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
+  const dispatch = useDispatch()
+
   function submit() {
     // check logic
     localStorage.setItem('email', email)
     // remove key
     // localStorage.removeItem('email')
     // correct => redirect to home
+    dispatch(saveUser(email))
     navigate('/home')
   }
 

@@ -1,16 +1,12 @@
 import './App.css'
-import {createBrowserRouter, Outlet, redirect, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Home from "./page/Home.tsx";
 import Login from "./page/Login.tsx";
 import UserDetail from "./page/UserDetail.tsx";
-
-const Layout = () => {
-  return <div>
-    <header>header</header>
-    <Outlet />
-    <footer>footer</footer>
-  </div>
-}
+import {Provider, useDispatch, useSelector} from 'react-redux'
+import {RootState, store} from "./store.ts";
+import {clearUser, saveUser} from "./slices/accountSlice.ts";
+import {useEffect} from "react";
 
 function App() {
   // function checkLogin() {
@@ -46,8 +42,34 @@ function App() {
   ])
 
   return (
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   )
+}
+
+const Layout = () => {
+  const account = useSelector((state: RootState) => state.account)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem('email')) {
+      dispatch(saveUser(localStorage.getItem('email') || ''))
+    }
+  }, [])
+
+  function logout() {
+    dispatch(clearUser());
+  }
+
+  return <div>
+    <header className="flex flex-row justify-between">
+      <p>header</p>
+      <p>Email: {account.email} <button onClick={logout}>Logout</button></p>
+    </header>
+    <Outlet />
+    <footer>footer</footer>
+  </div>
 }
 
 export default App
