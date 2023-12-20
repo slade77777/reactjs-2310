@@ -2,11 +2,15 @@ import {useForm} from "react-hook-form";
 import {FC} from "react";
 import {instance} from "../axios-instance.ts";
 import {User} from "../page/Home.tsx";
+import {useDispatch} from "react-redux";
+import {addUser, getListUser} from "../slices/userSlice.ts";
 
-const UserForm: FC<{ closeForm: () => void, getList: () => void, user?: User }> = ({closeForm, getList, user}) => {
+const UserForm: FC<{ closeForm: () => void, user?: User }> = ({closeForm, user}) => {
   const {register, handleSubmit, reset, formState: {errors}} = useForm({
     defaultValues: user || {}
   });
+  const dispatch = useDispatch()
+
   const onSubmit = (data: User) => {
 
     if (user) {
@@ -15,7 +19,7 @@ const UserForm: FC<{ closeForm: () => void, getList: () => void, user?: User }> 
         closeForm()
         reset()
         //refetch list data
-        getList();
+        dispatch(getListUser())
       })
     } else {
       //case create
@@ -23,7 +27,7 @@ const UserForm: FC<{ closeForm: () => void, getList: () => void, user?: User }> 
         closeForm()
         reset()
         //refetch list data
-        getList();
+        dispatch(getListUser())
       })
     }
   };

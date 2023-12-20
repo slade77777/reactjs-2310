@@ -19,7 +19,7 @@ export const accountSlice = createSlice({
     clearUser: (state) => {
       localStorage.removeItem('email');
       state.email = ''
-    }
+    },
   }
 })
 

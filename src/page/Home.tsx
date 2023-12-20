@@ -2,8 +2,10 @@ import '../App.css'
 import {useEffect, useState} from "react";
 import UserLine from "../components/UserLine.tsx";
 import UserForm from "../components/UserForm.tsx";
-import {instance} from "../axios-instance.ts";
 import {useCheckLogin} from "../hook/useCheckLogin.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {getListUser} from "../slices/userSlice.ts";
+import {RootState} from "../store.ts";
 
 export type User = {
   id: number,
@@ -14,24 +16,17 @@ export type User = {
 }
 
 function Home() {
-  const [users, setUsers] = useState<Array<User>>([])
-
   const [isAdding, setAdding] = useState(false);
-
+  const dispatch = useDispatch()
   function closeForm() {
     setAdding(false)
   }
 
-  function getList() {
-    instance.get('/user').then(response => {
-      setUsers(response.data)
-    })
-  }
-
   useEffect(() => {
-    getList();
-  }, [])
+    dispatch(getListUser())
+  }, [dispatch])
 
+  const { users } = useSelector((state: RootState) => state.user)
   useCheckLogin();
 
   return (
@@ -51,13 +46,13 @@ function Home() {
           </thead>
           <tbody>
           {
-            users.map((user) => <UserLine user={user} getList={getList} />)
+            users.map((user) => <UserLine user={user} />)
           }
           </tbody>
         </table>
       </div>
       {
-        isAdding && <UserForm closeForm={closeForm} getList={getList} />
+        isAdding && <UserForm closeForm={closeForm} />
       }
     </div>
   )

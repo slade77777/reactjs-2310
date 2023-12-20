@@ -3,10 +3,13 @@ import {Link} from "react-router-dom";
 import {User} from "../page/Home.tsx";
 import {instance} from "../axios-instance.ts";
 import UserForm from "./UserForm.tsx";
+import {useDispatch} from "react-redux";
+import {getListUser} from "../slices/userSlice.ts";
 
-const UserLine: FC<{ user: User, getList: () => void }> = ({user, getList}) => {
+const UserLine: FC<{ user: User }> = ({user}) => {
   const [isDelete, setDelete] = useState(false)
   const [isEdit, setEdit] = useState(false)
+  const dispatch = useDispatch()
 
   function editUser() {
     // edit user
@@ -20,7 +23,7 @@ const UserLine: FC<{ user: User, getList: () => void }> = ({user, getList}) => {
 
   function confirmDelete() {
     instance.delete(`/user/${user.id}`).then(() => {
-      getList();
+      dispatch(getListUser())
       setDelete(false);
     })
   }
@@ -50,7 +53,7 @@ const UserLine: FC<{ user: User, getList: () => void }> = ({user, getList}) => {
         </div>
     }
     {
-      isEdit && <UserForm user={user} closeForm={() => setEdit(false)} getList={getList}/>
+      isEdit && <UserForm user={user} closeForm={() => setEdit(false)} />
     }
   </tr>
 }
